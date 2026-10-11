@@ -30,9 +30,22 @@ references Exchange_Rates(date , currency_code);
 -- Adding foreign keys
 alter table Sales
 add constraint FK_Sales_Stores
-foreign key (customer_key)
-references Customers(customer_key);
+foreign key (store_key)
+references Stores(store_key);
 
 
 select * from vw_Sales_Product_Customer_Store
 order by order_number desc;
+
+
+ALTER TABLE dbo.Sales
+ADD Amount DECIMAL(18,2)
+
+select top 5 * from dbo.Sales
+
+UPDATE s SET
+    s.Amount = s.quantity * p.unit_price_usd
+FROM dbo.Sales AS [s]
+LEFT JOIN dbo.Products AS [p]
+ON s.product_key = p.product_key
+
